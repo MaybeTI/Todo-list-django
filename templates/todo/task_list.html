@@ -3,19 +3,23 @@
 {% block content %}
   <h1>
     TODO list
-    <a href="" class="btn btn-primary link-to-page float-right">Add task</a>
+    <a href="{% url 'todo:task-create' %}" class="btn btn-primary link-to-page float-right">Add task</a>
   </h1>
   {% if task_list %}
     {% for task in task_list %}
       <strong style="line-height: 2.3">{{ task.content }}
         {% if task.is_done %}
           <span style="color: green; display: inline-block;">Done</span>
-          <form action="" style="display: inline-block; float: right;">
+          <form action="{% url 'todo:toggle-task' pk=task.pk %}" method="post" style="display: inline-block; float: right;">
+            {% csrf_token %}
+            {{ task_form.is_done }}
             <input type="submit" value="Undo" class="btn grey-button">
           </form>
         {% else %}
           <span style="color: red; display: inline-block;">Not done</span>
-          <form action="" style="display: inline-block; float: right;">
+          <form action="{% url 'todo:toggle-task' pk=task.pk %}" method="post" style="display: inline-block; float: right;">
+            {% csrf_token %}
+            {{ task_form.is_done }}
             <input type="submit" value="Complete" class="btn green-button">
           </form>
         {% endif %}
@@ -36,7 +40,7 @@
             {{ tag }}
           {% endfor %}
           </span>
-        <strong><a href="">Update</a> <a href="">Delete</a></strong>
+        <strong><a href="{% url 'todo:task-update' pk=task.id %}">Update</a> <a href="{% url 'todo:task-delete' pk=task.id %}">Delete</a></strong>
       </p>
       <hr>
     {% endfor %}
