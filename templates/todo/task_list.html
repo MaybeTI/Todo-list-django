@@ -1,9 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <h1>
+    TODO list
+    <a href="" class="btn btn-primary link-to-page float-right">Add task</a>
+  </h1>
   {% if task_list %}
     {% for task in task_list %}
-      {{ task }}
+      <strong style="line-height: 2.3">{{ task.content }}
+        {% if task.is_done %}
+          <span style="color: green; display: inline-block;">Done</span>
+          <form action="" style="display: inline-block; float: right;">
+            <input type="submit" value="Undo" class="btn grey-button">
+          </form>
+        {% else %}
+          <span style="color: red; display: inline-block;">Not done</span>
+          <form action="" style="display: inline-block; float: right;">
+            <input type="submit" value="Complete" class="btn green-button">
+          </form>
+        {% endif %}
+      </strong>
+
+
+      <br>
+      <span style="font-size: smaller; line-height: 2.3;">
+        Created: {{ task.datetime|date:'F d, Y, g:i a' }}
+        {% if task.deadline %}
+          <span style="color: brown;">Deadline: {{ task.deadline|date:'F d, Y, g:i a' }}</span>
+        {% endif %}
+      </span>
+      <br>
+      <p style="line-height: 2.3">
+        <span style="color: gray">Tags:
+          {% for tag in task.tags.all %}
+            {{ tag }}
+          {% endfor %}
+          </span>
+        <strong><a href="">Update</a> <a href="">Delete</a></strong>
+      </p>
+      <hr>
     {% endfor %}
 
   {% endif %}
