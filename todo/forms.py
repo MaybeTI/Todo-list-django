@@ -14,9 +14,7 @@ class TaskForm(forms.ModelForm):
 
 
 class TaskFormToggle(forms.ModelForm):
+
     class Meta:
         model = Task
-        fields = ('is_done',)
-
-
-
+        fields = ("is_done",)

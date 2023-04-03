@@ -15,7 +15,7 @@ class TaskListView(generic.ListView):
         if form.is_valid():
             task = form.save(commit=False)
             if task.is_done:
-                task.is_done = False
+                task.is_done = False  # set is_done to False if the user clicks "Undo"
             else:
                 task.is_done = True
             task.save()
@@ -41,3 +41,20 @@ class TaskDeleteView(generic.DeleteView):
 
 class TagListView(generic.ListView):
     model = Tag
+
+
+class TagCreateView(generic.CreateView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
+    fields = "__all__"
+
+
+class TagUpdateView(generic.UpdateView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
+    fields = "__all__"
+
+
+class TagDeleteView(generic.DeleteView):
+    model = Tag
+    success_url = reverse_lazy("todo:tag-list")
